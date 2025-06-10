@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS</title>
+    <script>
+        window.onload = inicio;
+
+        function inicio() {
+            document.getElementById('situacao1').addEventListener('change', valor);
+            document.getElementById('btnAdicionar').addEventListener('click', defineTarefa);
+        }
+
+        function defineTarefa() {
+            const nomeDigitado = document.getElementById('nomeTarefa').value;
+            const rotulo = document.getElementById('rotulo1');
+            if (nomeDigitado) {
+                rotulo.textContent = nomeDigitado;
+            }
+        }
+
+        function valor() {
+            const campo = document.getElementById('situacao1');
+            const rotulo = document.getElementById('rotulo1');
+            const status = campo.value;
+
+            rotulo.style.backgroundColor = '';
+
+            if (status === 'atribuida') {
+                rotulo.style.backgroundColor = 'green';
+            } else if (status === 'parada') {
+                rotulo.style.backgroundColor = 'yellow';
+            } else if (status === 'rejeitada') {
+                rotulo.style.backgroundColor = 'red';
+            } else if (status === 'fim') {
+                const tabela = document.getElementById('tabela-concluidas');
+                const nomeTarefa = rotulo.textContent;
+                const dataConclusao = new Date().toLocaleString('pt-BR');
+                
+                tabela.innerHTML += `<tr><td>${nomeTarefa}</td><td>${dataConclusao}</td></tr>`;
+                
+                rotulo.textContent = 'Nova tarefa...';
+                campo.value = 'inicio';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <label for="nomeTarefa">Nome da Tarefa:</label>
+        <input type="text" id="nomeTarefa">
+        <button id="btnAdicionar">Definir Tarefa</button>
+    </div>
+    <hr>
+    <div>
+        <select id="situacao1">
+            <option value="inicio">Aguardando</option>
+            <option value="atribuida">Em andamento</option>
+            <option value="parada">Pausada</option>
+            <option value="rejeitada">Rejeitada</option>
+            <option value="fim">Concluída</option>
+        </select>
+        <label for="situacao1" id="rotulo1">Defina um nome para a tarefa acima</label>
+    </div>
+    <hr>
+    <h3>Tarefas Concluídas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome da Tarefa</th>
+                <th>Data da Conclusão</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-concluidas">
+        </tbody>
+    </table>
+</body>
+</html>

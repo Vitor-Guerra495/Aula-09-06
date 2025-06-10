@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS</title>
+    <script>
+        window.onload = inicio;
+        let contador = 1;
+
+        function inicio() {
+            let botao = document.getElementById('btnAdiciona');
+            botao.addEventListener('click', adiciona);
+        }
+
+        function adiciona() {
+            let campoNome = document.getElementById('nome');
+            let nomeAtividade = campoNome.value;
+            
+            let atividades = document.getElementById('atividades');
+            let checkboxId = `c${contador++}`;
+            
+            atividades.innerHTML += `<input type="checkbox" id="${checkboxId}" value="${nomeAtividade}">`;
+            atividades.innerHTML += `<label for="${checkboxId}"> ${nomeAtividade} </label><br>`;
+            
+            let newCheckbox = document.getElementById(checkboxId);
+            if (newCheckbox) {
+                newCheckbox.addEventListener('change', valor);
+            }
+            campoNome.value = '';
+        }
+
+        function valor(event) {
+            const data = new Date();
+            const nomeAtividade = this.value;
+
+            const corpoTabela = document.getElementById('corpo-tabela');
+            corpoTabela.innerHTML += `<tr><td>${nomeAtividade}</td><td>${data.toLocaleString('pt-BR')}</td></tr>`;
+        }
+    </script>
+</head>
+<body>
+    <label for="nome">Atividade:</label>
+    <input type="text" id="nome">
+    <input type="button" id="btnAdiciona" value="Adicionar"><br>
+
+    <div id="atividades"></div>
+
+    <table id="tabela-encerradas">
+        <thead>
+            <tr>
+                <th>Nome da tarefa</th>
+                <th>Data de encerramento</th>
+            </tr>
+        </thead>
+        <tbody id="corpo-tabela">
+        </tbody>
+    </table>
+
+</body>
+</html>
